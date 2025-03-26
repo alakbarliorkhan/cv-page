@@ -674,6 +674,7 @@ h3.profession {
 }
 .contact .contact-form .btn {
   height: 50px;
+  width: 225px;
   padding: 0 50px;
   cursor: pointer;
   font-family: 'Poppins', sans-serif;
