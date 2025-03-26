@@ -29,12 +29,58 @@ var typed = new Typed('.typing', {
   loop: true,
 });
 
-/* Update Years in IT and in Salesforce */
+/* Animate Experience */
 
-[...document.querySelectorAll('.it-exp')].forEach(
-  (elem) => (elem.textContent = new Date().getFullYear() - 2015)
-);
-document.querySelector('.sf-exp').textContent = new Date().getFullYear() - 2019;
+const itExpElem = document.querySelector('.it-exp');
+const sfExpElem = document.querySelector('.sf-exp');
+const certsElem = document.querySelector('.certs');
+const progressElems = [...document.querySelectorAll('.progress-in')];
+
+document.addEventListener('animationend', (event) => {
+  if (event.target.id === 'about') {
+    executeCountAnimation();
+  } else {
+    itExpElem.textContent = 0;
+    sfExpElem.textContent = 0;
+    certsElem.textContent = 0;
+    progressElems.forEach((elem) => {
+      elem.style.width = '0%';
+    });
+  }
+});
+
+function executeCountAnimation() {
+  countAnimation(itExpElem, new Date().getFullYear() - 2015, 100);
+
+  countAnimation(sfExpElem, new Date().getFullYear() - 2019, 100);
+
+  countAnimation(certsElem, 15, 100);
+
+  progressElems.forEach((elem) => {
+    countAnimation(elem, elem.getAttribute('data-style-width'), 10, 'styleWidth');
+  });
+}
+
+function countAnimation(elem, countTo, countSpeed, contentToChange = 'textContent') {
+  let counter = 0;
+  const interval = setInterval(() => {
+    counter++;
+    switch (contentToChange) {
+      case 'textContent':
+        elem.textContent = counter;
+        break;
+      case 'styleWidth':
+        elem.style.width = counter + '%';
+        break;
+      default:
+        break;
+    }
+
+    if (counter >= countTo) {
+      clearInterval(interval);
+    }
+  }, countSpeed);
+}
 
 /* Changing Aside Active Link */
 
@@ -80,16 +126,6 @@ function showSection(element) {
 
   const target = element.getAttribute('href').split('#')[1];
   document.querySelector('#' + target).classList.add('active');
-}
-
-function updateNav(element) {
-  for (let i = 0; i < totalNavList; i++) {
-    navList[i].querySelector('a').classList.remove('active');
-    const target = element.getAttribute('href').split('#')[1];
-    if (target === navList[i].querySelector('a').getAttribute('href').split('#')[1]) {
-      navList[i].querySelector('a').classList.add('active');
-    }
-  }
 }
 
 /* Activating Mobile Menu */
