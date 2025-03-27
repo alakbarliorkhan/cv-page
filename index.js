@@ -40,12 +40,13 @@ document.addEventListener('animationend', (event) => {
   if (event.target.id === 'about') {
     executeCountAnimation();
   } else {
-    itExpElem.textContent = 0;
-    sfExpElem.textContent = 0;
-    certsElem.textContent = 0;
-    progressElems.forEach((elem) => {
-      elem.style.width = '0%';
-    });
+    resetAnimations();
+  }
+});
+
+document.addEventListener('animationcancel', (event) => {
+  if (event.animationName === 'slideSection') {
+    resetAnimations();
   }
 });
 
@@ -80,6 +81,15 @@ function countAnimation(elem, countTo, countSpeed, contentToChange = 'textConten
       clearInterval(interval);
     }
   }, countSpeed);
+}
+
+function resetAnimations() {
+  itExpElem.textContent = 0;
+  sfExpElem.textContent = 0;
+  certsElem.textContent = 0;
+  progressElems.forEach((elem) => {
+    elem.style.width = '0%';
+  });
 }
 
 /* Changing Aside Active Link */
